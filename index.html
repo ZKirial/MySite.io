@@ -46,28 +46,26 @@
             flex-direction: inherit;
             align-items: inherit;
             position: relative;
-            width: 80%;
-            height: 80%;
+            box-shadow: 30px 30px 20px rgba(0,0,0,0.25);
+            border-radius: 20px;
+            border-color: rgba(51, 51, 51, 0.5);
+            border-style: solid;
+            border-width: 1px 0px 0px 1px;
+            background-color: rgba(51, 51, 51, 0.1);
+            backdrop-filter: blur(3px);
+            padding: 5px 10px 0px 10px;
         }
 
         .frasiWrapper{
-            /* display: inherit;
-            align-items: inherit; */
+            display: inherit;
+            align-items: inherit;
+            justify-content: inherit;
         }
         
         .container {
-            /* padding: 2em 1em;
-            background: white;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            border-radius: 20px;
+            display: flex;
             text-align: center;
-            overflow: hidden;
-            display: inherit;
-            justify-content: inherit;
-            align-items: inherit;
-            position: absolute;
-            top: 15%;
-            left: 10%; */
+            justify-content: center;
         }
         
         .frase {
@@ -85,23 +83,22 @@
         }
         
         .button {
-            /* background-color: rgba(44, 62, 80, 0.45);
+            background-color: rgba(44, 62, 80, 0.45);
             color: white;
             border: none;
-            padding: 0.5em 2em;
+            padding: 0.25em 2em;
             font-size: 1.2em;
             border-radius: 30px;
             cursor: pointer;
             box-shadow: 10px 5px 7.5px rgba(51, 51, 51, 0.3);
             transition: background-color 0.3s, box-shadow 0.3s;
             position: relative;
-            left: 30%;
-            bottom: 0.5em; */
+            bottom: 0.5em;
         }
         
         .button:hover {
-            /* background-color: #aa4c86;
-            box-shadow: 10px 5px 7.5px rgba(51, 51, 51, 0.8); */
+            background-color: rgba(44, 62, 80, 0.6);;
+            box-shadow: 10px 5px 7.5px rgba(51, 51, 51, 0.8);
         }
 
         .buttonIntro {
@@ -120,7 +117,7 @@
         }
         
         .buttonIntro:hover {
-            background-color: rgba(44, 62, 80, 0.6);;
+            background-color: rgba(44, 62, 80, 0.6);
             box-shadow: 10px 5px 7.5px rgba(51, 51, 51, 0.8);
         }
         
@@ -177,9 +174,6 @@
             .buttonIntro{
                 padding: 0.5em 1em;
                 font-size: 1em;
-                /* position: relative;
-                left: 30%;
-                bottom: 0.5em; */
             }
             
         }
@@ -202,16 +196,16 @@
                     <div class="frase attiva">
                         "Ogni giorno con te è il mio giorno preferito."
                     </div>
-                    <div class="frase">
+                    <div class="frase hidden">
                         "Hai trasformato la mia vita in qualcosa di meraviglioso."
                     </div>
-                    <div class="frase">
+                    <div class="frase hidden">
                         "Sei il mio pensiero felice."
                     </div>
-                    <div class="frase">
+                    <div class="frase hidden">
                         "Con te ogni momento è speciale."
                     </div>
-                    <div class="frase">
+                    <div class="frase hidden">
                         "Vuoi essere la mia ragazza?" 💖
                     </div>
                 </div>
@@ -291,17 +285,19 @@
         function prossimaFrase() {
             // Nascondi frase attuale
             frasi[indice].classList.remove('attiva');
+            frasi[indice].classList.add('hidden');
 
             // Avanza di uno
             indice++;
 
             // Mostra la nuova frase (se esiste)
             if (indice < frasi.length) {
+                frasi[indice].classList.remove('hidden');
                 frasi[indice].classList.add('attiva');
 
                 // Se è l'ultima frase, cambia già il testo del bottone
                 if (indice === frasi.length - 1) {
-                    const bottone = document.querySelector('.bottone');
+                    const bottone = document.querySelector('.button');
                     bottone.innerText = "Fine 💖";
                     bottone.onclick = mostraDomanda;
                     return;

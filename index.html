@@ -22,6 +22,15 @@
             
             position: absolute;
         }
+
+        @keyframes mymove {
+            from {
+                background-image: url('/Images/wp_body.jpg'); 
+            }
+            to {
+                background-Image : url('/Images/carosello_mobile.jpeg');
+            }
+        }
         
         h1 {
             color: rgba(51, 46, 60, 1) ;
@@ -41,27 +50,6 @@
             font-weight: bold;
         }
 
-        /* .card-wrapper {
-            display: inherit;
-            flex-direction: inherit;
-            align-items: inherit;
-            position: relative;
-            box-shadow: 30px 30px 20px rgba(0,0,0,0.25);
-            border-radius: 20px;
-            border-color: rgba(51, 51, 51, 0.5);
-            border-style: solid;
-            border-width: 1px 0px 0px 1px;
-            background-color: rgba(51, 51, 51, 0.1);
-            backdrop-filter: blur(3px);
-            padding: 5px 10px 0px 10px;
-        } */
-/* 
-        .frasiWrapper{
-            display: inherit;
-            align-items: inherit;
-            justify-content: inherit;
-        }
-         */
         .container {
             display: flex;
             flex-direction: column;
@@ -176,6 +164,15 @@
                 background-image: url('/Images/main_mobile_wp.jpeg');
                 font-family: 'Verdana', serif;
             }
+            
+            @keyframes mymove {
+                from {
+                    background-image: url('/Images/main_mobile_wp.jpg');
+                }
+                to {
+                    background-Image : url('/Images/carosello_mobile.jpeg');
+                }
+            }
 
             h1{
                 font-size: 1.5em;
@@ -197,10 +194,16 @@
   <body>
     <div class="intro" id="intro">
         <h1>Stavo pensando...</h1>
+        
         <p class="messaggio attivo">
-            Sono passati molti anni da quando quando ci siamo conosciuti.</br>
+            Placeholder
+            </br>
+            Placeholder
         </p>
-        <p class="messaggio hidden">messaggio 2</p>
+        <p class="messaggio hidden">
+            
+        </p>
+        
         <button onclick="cambioMessaggio()" class="buttonIntro">Continua</button>
     </div>
 
@@ -226,17 +229,6 @@
         <button class="button" onclick="prossimaFrase()">Avanti ➡️</button>
     </div>
 
-    <!-- <div id="domandaList" class="hidden">
-        <h1>Vorresti essere la mia ragazza? 💖</h1>
-        <button onclick="risposta('sì')">Sì</button>
-        <br /><br />
-        <button onclick="risposta('no')">Meglio rimanere amici... 😅</button>
-    </div>
-
-    <div id="rispostaFinale" class="hidden">
-        <h1 id="messaggioFinale"></h1>
-    </div> -->
-    
     <script>
         const messaggi = document.querySelectorAll('.messaggio');
         let indiceMessaggi = 0;
@@ -268,12 +260,13 @@
             document.getElementById("intro").classList.add("hidden");
             document.getElementById("domanda1").classList.remove("hidden");
             document.getElementById("domanda1").classList.add("carosello");
+            const imgurl = '/Images/carosello_mobile.jpeg'
+            document.body.setAttribute('style', 'background-image: url("' + imgurl + '")');
+            // document.body.style.animationName = 'mymove';
+            // document.body.style.animationDuration = '5s';
+            // document.body.style.animationIterationCount = '1';
+            // document.body.style.animationTimingFunction = 'ease-in';
         }
-
-        // function mostraDomanda() {
-        //     document.getElementById("domanda1").classList.add("hidden");
-        //     document.getElementById("domandaList").classList.remove("hidden");
-        // }
 
         function risposta(scelta) {
             document.getElementById("domandaList").classList.add("hidden");

@@ -23,9 +23,9 @@
         }
 
         /* livello sopra per l'immagine nuova */
-        body::after {
+        /* body::after {
             content: "";
-            position: fixed; /* copre tutta la finestra */
+            position: fixed;
             top: 0; left: 0;
             width: 100%; height: 100%;
             background-size: cover;
@@ -33,18 +33,45 @@
             background-image: var(--nuovo-sfondo, none);
             opacity: 0;
             transition: opacity 1s ease-in-out;
-            z-index: -1; /* lo manda sotto al contenuto */
+            z-index: -1;
             pointer-events: none;
         }
 
         body::after {
             background-image: var(--nuovo-sfondo, none);
+        } */
+
+        body::before, body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: -1;
         }
 
-        body.fade-sfondo::after {
+        body::before {
+            background-image: var(--before-bg);
+        }
+        body::after {
+            background-image: var(--after-bg);
+        }
+
+        body.show-before::before {
             opacity: 1;
         }
- 
+        body.show-after::after {
+            opacity: 1;
+        }
+
+        /* body.fade-sfondo::after {
+            opacity: 1;
+        }
+  */
         /* Titoli */
         h1 {
             color: rgba(51, 46, 60, 1);
@@ -313,28 +340,70 @@
             }
         }
 
+        // function cambiaSfondo(nuovaImmagine) {
+        //     const body = document.body;
+        //     const durata = 1000; // ms, stessa del CSS
+
+        //     // imposta la nuova immagine come overlay
+        //     body.style.setProperty('--nuovo-sfondo', `url(${nuovaImmagine})`);
+        //     body.classList.add("fade-sfondo");
+        //     body.style.setProperty("--nuovo-sfondo", `url(${nuovaImmagine})`);
+
+        //     // forza l'immagine sull'overlay
+        //     body.querySelector("style#sfondo-dinamico")?.remove();
+        //     const style = document.createElement("style");
+        //     style.id = "sfondo-dinamico";
+        //     style.innerHTML = `body::after { background-image: url(${nuovaImmagine}); }`;
+        //     document.head.appendChild(style);
+
+        //     // dopo il fade-in, sostituiamo l'immagine di sfondo del body
+        //     setTimeout(() => {
+        //         body.style.backgroundImage = `url(${nuovaImmagine})`;
+        //         // togliamo subito la classe per fermare qui l'animazione
+        //         body.classList.remove("fade-sfondo");
+        //     }, durata);
+        // }
+
+        // function cambiaSfondo(nuovaImmagine) {
+        //     const body = document.body;
+        //     const durata = 1000; // ms, stessa del CSS
+
+        //     // Imposta la nuova immagine nell'overlay
+        //     const style = document.createElement("style");
+        //     style.id = "sfondo-dinamico";
+        //     style.innerHTML = `body::after { background-image: url(${nuovaImmagine}); }`;
+        //     document.getElementById("sfondo-dinamico")?.remove();
+        //     document.head.appendChild(style);
+
+        //     // Avvia il fade-in
+        //     body.classList.add("fade-sfondo");
+
+        //     // Dopo la durata:
+        //     setTimeout(() => {
+        //         // assegna lo sfondo direttamente al body
+        //         body.style.backgroundImage = `url(${nuovaImmagine})`;
+
+        //         // rimuovi la classe e lo style per evitare un secondo fade
+        //         body.classList.remove("fade-sfondo");
+        //         document.getElementById("sfondo-dinamico")?.remove();
+        //     }, durata);
+        // }
+
+        let currentLayer = 'before';
+
         function cambiaSfondo(nuovaImmagine) {
             const body = document.body;
-            const durata = 1000; // ms, stessa del CSS
+            const nextLayer = currentLayer === 'before' ? 'after' : 'before';
 
-            // imposta la nuova immagine come overlay
-            body.style.setProperty('--nuovo-sfondo', `url(${nuovaImmagine})`);
-            body.classList.add("fade-sfondo");
-            body.style.setProperty("--nuovo-sfondo", `url(${nuovaImmagine})`);
+            // aggiorna lo sfondo del prossimo layer
+            body.style.setProperty(`--${nextLayer}-bg`, `url(${nuovaImmagine})`);
 
-            // forza l'immagine sull'overlay
-            body.querySelector("style#sfondo-dinamico")?.remove();
-            const style = document.createElement("style");
-            style.id = "sfondo-dinamico";
-            style.innerHTML = `body::after { background-image: url(${nuovaImmagine}); }`;
-            document.head.appendChild(style);
+            // imposta opacità
+            body.classList.add(`show-${nextLayer}`);
+            body.classList.remove(`show-${currentLayer}`);
 
-            // dopo il fade-in, sostituiamo l'immagine di sfondo del body
-            setTimeout(() => {
-                body.style.backgroundImage = `url(${nuovaImmagine})`;
-                // togliamo subito la classe per fermare qui l'animazione
-                body.classList.remove("fade-sfondo");
-            }, durata);
+            // aggiorna il riferimento
+            currentLayer = nextLayer;
         }
 
     </script>

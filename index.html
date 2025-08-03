@@ -13,182 +13,164 @@
             background-image: url('/Images/wp_body.jpg');
             background-repeat: no-repeat;
             background-attachment: fixed;
-            background-size: 100% 100%;
+            background-size: cover; /* adatta a tutti gli schermi */
             display: flex;
-            align-items: center;
             justify-content: center;
             width: 100%;
-            height: 100vh;
-            
-            position: absolute;
+            min-height: 100vh;
         }
 
-        @keyframes mymove {
-            from {
-                background-image: url('/Images/wp_body.jpg'); 
-            }
-            to {
-                background-Image : url('/Images/carosello_mobile.jpeg');
-            }
-        }
-        
+        /* Titoli */
         h1 {
-            color: rgba(51, 46, 60, 1) ;
-            font-size: 3em;
+            color: rgba(51, 46, 60, 1);
+            font-size: clamp(1.5rem, 5vw, 3rem); /* da 24px a 48px */
             margin-bottom: 0.5em;
             text-shadow: 2px 2px rgba(51, 51, 51, 0.3);
-        }
-        
-        p {
-            font-size: 1.3em;
-            margin-bottom: 2em;
-            color: rgba(0,0,0,0.75);
-        }
-        
-        button{
-            font-family: 'Verdana', sans-serif;
-            font-weight: bold;
+            text-align: center;
         }
 
+        /* Paragrafi */
+        p {
+            font-size: clamp(1rem, 4vw, 1.3rem);
+            margin-bottom: 1.5em;
+            color: rgba(0,0,0,0.75);
+        }
+
+        /* Contenitore generale */
         .container {
             display: flex;
             flex-direction: column;
-            text-align: center;
-            justify-content: center;
             align-items: center;
-            width: 100%;
-            height: 100%;
+            justify-content: center;
+            position: relative;
+            width: 90%;
+            max-width: 90%; /* non si allarga troppo su desktop */
+            min-height: 25vh;
+            perspective: 1000px;
+            max-height: 35vh;
+            height: fit-content;
         }
-        
+
+        /* Frasi effetto libro */
         .frase {
-            font-size: 1.4em;
+            font-size: clamp(1rem, 4vw, 1.4rem);
             color: #333;
             opacity: 0;
-            transform: rotate(180deg);
-            transition: opacity 0.6s, transform 0.6s;
+            transform: rotateY(90deg);
+            transform-origin: left center;
+            transition: opacity 0.6s, transform 0.8s ease;
             width: 100%;
-            min-height: 80%;
+            backface-visibility: hidden;
+            position: absolute;
+            top: 20%;
+            text-align: center;
+            padding: 1em;
         }
-        
+
         .frase.attiva {
             opacity: 1;
-            transform: rotate(0deg);
-            transform-origin: 25px bottom;
+            transform: rotateY(0deg);
         }
-        
+
+        .frase.uscente {
+            opacity: 0;
+            transform: rotateY(-90deg);
+        }
+
+
+        /* Bottoni */
+        button {
+            font-family: 'Verdana', sans-serif;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 5px 3px 6px rgba(51, 51, 51, 0.3);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
         .button {
             background-color: rgba(44, 62, 80, 0.45);
             color: white;
-            border: none;
-            padding: 0.25em 2em;
-            font-size: 1.2em;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 10px 5px 7.5px rgba(51, 51, 51, 0.3);
-            transition: background-color 0.3s, box-shadow 0.3s;
+            padding: 0.6em 1.5em;
+            font-size: clamp(1rem, 3.5vw, 1.2rem);
             position: relative;
-            bottom: 28%;
+            margin-top: 1em;
         }
-        
         .button:hover {
-            background-color: rgba(44, 62, 80, 0.6);;
-            box-shadow: 10px 5px 7.5px rgba(51, 51, 51, 0.8);
+            background-color: rgba(44, 62, 80, 0.6);
+            box-shadow: 5px 3px 7px rgba(51, 51, 51, 0.8);
         }
 
         .buttonIntro {
             background-color: rgba(44, 62, 80, 0.45);
             color: white;
-            border: none;
-            padding: 0.5em 2em;
-            font-size: 1.2em;
-            border-radius: 30px;
-            cursor: pointer;
-            box-shadow: 10px 5px 7.5px rgba(51, 51, 51, 0.3);
-            transition: background-color 0.3s, box-shadow 0.3s;
-            position: relative;
-            left: 30%;
-            bottom: 0.5em;
+            padding: 0.7em 1.5em;
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            margin-top: 5%;
         }
-        
         .buttonIntro:hover {
             background-color: rgba(44, 62, 80, 0.6);
-            box-shadow: 10px 5px 7.5px rgba(51, 51, 51, 0.8);
+            box-shadow: 5px 3px 7px rgba(51, 51, 51, 0.8);
         }
-        
-        
-        .hidden {
-            display: none;
-        }
-        
-        .intro{
+
+        /* Intro box */
+        .intro {
             position: relative;
-            top: -35%;
-            box-shadow: 30px 30px 20px rgba(0,0,0,0.25);
+            box-shadow: 10px 10px 15px rgba(0,0,0,0.25);
             border-radius: 20px;
-            border-color: rgba(51, 51, 51, 0.5);
-            border-style: solid;
-            border-width: 1px 0px 0px 1px;
-            text-align: left;
+            border: 1px solid rgba(51, 51, 51, 0.3);
             background-color: rgba(51, 51, 51, 0.1);
             backdrop-filter: blur(3px);
-            padding: 5px 10px 0px 10px;
-            max-width: 80%;
-            min-width: 80%;
+            padding: 1.5em;
+            max-width: 70%;
+            max-height: 35vh;
+            text-align: center;
+            height: fit-content;
+            margin-top: 4vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
-        
-        .carosello{
+
+        /* Carosello box */
+        .carosello {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            position: relative;
-            top: -28%;
-            width: 80%;
-            height: 40%;
-
-            box-shadow: 30px 30px 20px rgba(0,0,0,0.25);
+            max-width: 70%;
+            max-height: 35vh;
+            height: fit-content;
+            box-shadow: 10px 10px 15px rgba(0,0,0,0.25);
             border-radius: 20px;
-            border-color: rgba(51, 51, 51, 0.5);
-            border-style: solid;
-            border-width: 1px 0px 0px 1px;
+            border: 1px solid rgba(51, 51, 51, 0.3);
             background-color: rgba(51, 51, 51, 0.1);
             backdrop-filter: blur(3px);
-            padding: 5px 10px 0px 10px;
+            padding: 1em;
+            margin-top: 4vh;
+            width: 60%;
         }
 
-        @media only screen 
-            and (max-width: 393px) 
-            and (max-height: 873px) { 
+        /* Utility */
+        .hidden {
+            display: none;
+        }
 
+        /* MEDIA QUERY AGGIUNTIVE */
+        @media (max-width: 600px) {
             body {
                 background-image: url('/Images/main_mobile_wp.jpeg');
-                font-family: 'Verdana', serif;
             }
-            
-            @keyframes mymove {
-                from {
-                    background-image: url('/Images/main_mobile_wp.jpg');
-                }
-                to {
-                    background-Image : url('/Images/carosello_mobile.jpeg');
-                }
+            .intro, .carosello {
+                padding: 1em;
             }
-
-            h1{
-                font-size: 1.5em;
-                padding-left: 0.5em;
-            }
-
-            p{
+            .button, .buttonIntro {
+                width: 100%;
                 font-size: 1em;
             }
-
-            .buttonIntro{
-                padding: 0.5em 1em;
-                font-size: 1em;
-            }
-            
         }
+
     </style>
   </head>
   <body>
@@ -196,7 +178,13 @@
         <h1>Stavo pensando...</h1>
         
         <p class="messaggio attivo">
-            Placeholder
+            Placeholder messaggio molto lungo per test streach <br>
+            Testo a capo per provare l'altezza <br>
+            test a capo 2
+            <br>
+            test 3
+            <br>
+            test 4
         </p>
         <p class="messaggio hidden">
             Placeholder
@@ -204,7 +192,7 @@
         
         <button onclick="cambioMessaggio()" class="buttonIntro">Continua</button>
     </div>
-
+     
     <div id="domanda1" class="hidden">
         <div class="container" id="contenitoreFrasi">
             <div class="frase attiva">
@@ -279,17 +267,27 @@
         let indice = 0;
 
         function prossimaFrase() {
+            const fraseCorrente = frasi[indice];
+
             // Nascondi frase attuale
-            frasi[indice].classList.remove('attiva');
-            frasi[indice].classList.add('hidden');
+            fraseCorrente.classList.remove('attiva');
+            fraseCorrente.classList.add('uscente');
+
+            // dopo la durata della transizione (0.8s) nasconde la frase
+            setTimeout(() => {
+                fraseCorrente.classList.add('hidden');
+                fraseCorrente.classList.remove('uscente');
+            }, 800);
 
             // Avanza di uno
             indice++;
 
             // Mostra la nuova frase (se esiste)
             if (indice < frasi.length) {
-                frasi[indice].classList.remove('hidden');
-                frasi[indice].classList.add('attiva');
+                const nuovaFrase = frasi[indice];
+
+                nuovaFrase.classList.remove('hidden');
+                nuovaFrase.classList.add('attiva');
 
                 // Se è l'ultima frase, cambia già il testo del bottone
                 if (indice === frasi.length - 1) {

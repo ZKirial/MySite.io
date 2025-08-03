@@ -18,8 +18,58 @@
             justify-content: center;
             width: 100%;
             min-height: 100vh;
+
+            /* crea un contesto */
+            /* position: relative; */
+            z-index: 0; /* contenuto sopra allo sfondo animato */
         }
 
+        /* livello sopra per l'immagine nuova */
+        /* body::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: -1;
+        } */
+
+        body::after {
+            content: "";
+            position: fixed; /* copre tutta la finestra */
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-image: var(--nuovo-sfondo, none);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: -1; /* lo manda sotto al contenuto */
+            pointer-events: none;
+        }
+
+
+        /*
+        body::after {
+            background-image: var(--nuovo-sfondo);
+        }
+
+        body.fade-sfondo::after {
+            opacity: 1;
+        }
+        */
+        
+        body::after {
+            background-image: var(--nuovo-sfondo, none);
+        }
+
+        body.fade-sfondo::after {
+            opacity: 1;
+        }
+ 
         /* Titoli */
         h1 {
             color: rgba(51, 46, 60, 1);
@@ -216,10 +266,10 @@
     </div>
 
     <script>
-        const messaggi = document.querySelectorAll('.messaggio');
-        let indiceMessaggi = 0;
         function cambioMessaggio(){
-
+            const messaggi = document.querySelectorAll('.messaggio');
+            let indiceMessaggi = 0;
+            
             // Nascondi frase attuale
             messaggi[indiceMessaggi].classList.remove('attivo');
             messaggi[indiceMessaggi].classList.add('hidden');
@@ -246,27 +296,16 @@
             document.getElementById("intro").classList.add("hidden");
             document.getElementById("domanda1").classList.remove("hidden");
             document.getElementById("domanda1").classList.add("carosello");
-            const imgurl = '/Images/carosello_mobile.jpeg'
-            document.body.setAttribute('style', 'background-image: url("' + imgurl + '")');
+            // const imgurl = '/Images/carosello_mobile.jpeg'
+            // document.body.setAttribute('style', 'background-image: url("' + imgurl + '")');
+            
+            cambiaSfondo('/Images/carosello_mobile.jpeg');
         }
 
-        function risposta(scelta) {
-            document.getElementById("domandaList").classList.add("hidden");
-            document.getElementById("rispostaFinale").classList.remove("hidden");
-            const messaggio = document.getElementById("messaggioFinale");
-
-            if (scelta === "sì") {
-            messaggio.innerHTML =
-                "Mi hai reso la persona più felice del mondo! 💍💗";
-            } else {
-            messaggio.innerHTML = "Va bene, ma io ti aspetto... sempre ❤️";
-            }
-        }
-
-        const frasi = document.querySelectorAll('.frase');
+        
         let indice = 0;
-
         function prossimaFrase() {
+            const frasi = document.querySelectorAll('.frase');
             const fraseCorrente = frasi[indice];
 
             // Nascondi frase attuale
@@ -293,12 +332,37 @@
                 if (indice === frasi.length - 1) {
                     const bottone = document.querySelector('.button');
                     bottone.innerText = "Fine 💖";
-                    bottone.onclick = mostraDomanda;
+                    bottone.disabled = true;
                     return;
                 }
 
             }
         }
+
+        function cambiaSfondo(nuovaImmagine) {
+            const body = document.body;
+            const durata = 1000; // ms, stessa del CSS
+
+            // imposta la nuova immagine come overlay
+            body.style.setProperty('--nuovo-sfondo', `url(${nuovaImmagine})`);
+            body.classList.add("fade-sfondo");
+            body.style.setProperty("--nuovo-sfondo", `url(${nuovaImmagine})`);
+
+            // forza l'immagine sull'overlay
+            body.querySelector("style#sfondo-dinamico")?.remove();
+            const style = document.createElement("style");
+            style.id = "sfondo-dinamico";
+            style.innerHTML = `body::after { background-image: url(${nuovaImmagine}); }`;
+            document.head.appendChild(style);
+
+            // dopo il fade-in, sostituiamo l'immagine di sfondo del body
+            setTimeout(() => {
+                body.style.backgroundImage = `url(${nuovaImmagine})`;
+                // togliamo subito la classe per fermare qui l'animazione
+                body.classList.remove("fade-sfondo");
+            }, durata);
+        }
+
     </script>
   </body>
 </html>

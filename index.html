@@ -19,24 +19,10 @@
             width: 100%;
             min-height: 100vh;
 
-            /* crea un contesto */
-            /* position: relative; */
             z-index: 0; /* contenuto sopra allo sfondo animato */
         }
 
         /* livello sopra per l'immagine nuova */
-        /* body::after {
-            content: "";
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-size: cover;
-            background-position: center;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-            z-index: -1;
-        } */
-
         body::after {
             content: "";
             position: fixed; /* copre tutta la finestra */
@@ -51,17 +37,6 @@
             pointer-events: none;
         }
 
-
-        /*
-        body::after {
-            background-image: var(--nuovo-sfondo);
-        }
-
-        body.fade-sfondo::after {
-            opacity: 1;
-        }
-        */
-        
         body::after {
             background-image: var(--nuovo-sfondo, none);
         }
@@ -296,8 +271,6 @@
             document.getElementById("intro").classList.add("hidden");
             document.getElementById("domanda1").classList.remove("hidden");
             document.getElementById("domanda1").classList.add("carosello");
-            // const imgurl = '/Images/carosello_mobile.jpeg'
-            // document.body.setAttribute('style', 'background-image: url("' + imgurl + '")');
             
             cambiaSfondo('/Images/carosello_mobile.jpeg');
         }
